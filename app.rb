@@ -12,13 +12,15 @@ post '/gateway' do
 
   action, repo = message.split('_').map {|c| c.strip.downcase }
   repo_url = "https://api.github.com/repos/#{repo}"
+  p 'ACTION'
+  p action
+  p 'REPO'
+  p repo_url
 
   case action
     when 'issues'
       resp = HTTParty.get(repo_url)
       resp = JSON.parse resp.body
-      p '!!!!!!!!!!!!!!!!!!!!!! response'
-      p resp
       respond_message "There are #{resp['open_issues_count']} open issues on #{repo}"
   end
 end
