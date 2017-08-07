@@ -6,10 +6,6 @@ require 'open-uri'
 
 URL = "https://coinmarketcap.com/currencies/views/all/"
 
-
-currencies = {}
-
-
 get '/' do
   'Nothing to see here.'
 end
@@ -20,6 +16,7 @@ post '/gateway' do
   p message
   p message
 
+  currencies = {}
   page = Nokogiri::HTML(open(URL))
   page.css('tbody tr').each do |row|
     currency_sym = row.css('.text-left').children.first.text
