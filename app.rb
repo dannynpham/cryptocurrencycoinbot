@@ -29,8 +29,7 @@ post '/gateway' do
 
   if currency
     respond_message "#{currency['name']} is currently valued at #{currency['price']}."
-  elsif
-    symbol = 'HELP'
+  elsif symbol == 'HELP'
     respond_message "To use me type 'price <cryptocurrency symbol>'."
   else
     respond_message "Currency cannot be found."
