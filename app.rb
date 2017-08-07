@@ -28,7 +28,7 @@ post '/gateway' do
   currency = currencies[symbol]
 
   if currency
-    respond_message "#{currency['name']} is currently valued at #{currency['price']} and the market cap is at #{currency['marketcap']}."
+    respond_message "#{currency['name']} is currently valued at #{currency['price']}."
   else
     respond_message "Currency cannot be found."
   end
