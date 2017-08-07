@@ -11,10 +11,10 @@ get '/' do
 end
 
 post '/gateway' do
-  p message
-  p message
-  p message
-  p message
+  p params[:text]
+  p params[:text]
+  p params[:text]
+  p params[:text]
 
   currencies = {}
   page = Nokogiri::HTML(open(URL))
