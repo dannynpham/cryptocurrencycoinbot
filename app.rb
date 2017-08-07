@@ -15,6 +15,11 @@ get '/' do
 end
 
 post '/gateway' do
+  p message
+  p message
+  p message
+  p message
+
   page = Nokogiri::HTML(open(URL))
   page.css('tbody tr').each do |row|
     currency_sym = row.css('.text-left').children.first.text
@@ -28,22 +33,23 @@ post '/gateway' do
   p currencies[message]
   p currencies[message]
   p currencies[message]
-  # message = params[:text].gsub(params[:trigger_word], '').strip
-  # p message
 
-  # action, repo = message.split('_').map {|c| c.strip.downcase }
-  # repo_url = "https://api.github.com/repos/#{repo}"
-  # p 'ACTION'
-  # p action
-  # p 'REPO'
-  # p repo_url
+  message = params[:text].gsub(params[:trigger_word], '').strip
+  p message
 
-  # case action
-  #   when 'issues'
-  #     resp = HTTParty.get(repo_url)
-  #     resp = JSON.parse resp.body
-  #     respond_message "There are #{resp['open_issues_count']} open issues on #{repo}"
-  # end
+  action, repo = message.split('_').map {|c| c.strip.downcase }
+  repo_url = "https://api.github.com/repos/#{repo}"
+  p 'ACTION'
+  p action
+  p 'REPO'
+  p repo_url
+
+  case action
+    when 'issues'
+      resp = HTTParty.get(repo_url)
+      resp = JSON.parse resp.body
+      respond_message "There are #{resp['open_issues_count']} open issues on #{repo}"
+  end
 
 end
 
