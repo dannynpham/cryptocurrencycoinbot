@@ -11,11 +11,13 @@ get '/' do
 end
 
 post '/gateway' do
-  message = params[:text].gsub(params[:trigger_word], '').strip.upcase
+  symbol = params[:text].gsub(params[:trigger_word], '').strip.upcase
 
   currencies = {}
-  page = Nokogiri::HTML(open(URL))
-  page.css('tbody tr').each do |row|
+
+  coinwatch_page = Nokogiri::HTML(open(URL))
+  coinwatch_page.css('tbody tr').each do |row|
+    # TODO: Short circuit when symbol is matched.
     currency_sym = row.css('.text-left').children.first.text
     currencies[currency_sym] = {}
     currencies[currency_sym]["name"] = row.css('img').attr('alt').value
@@ -23,11 +25,9 @@ post '/gateway' do
     currencies[currency_sym]["price"] = row.css('.price').text
   end
 
-  p currencies[message]
-  p currencies[message]
-  p currencies[message]
-  p currencies[message]
+  currency = currencies[symbol]
 
+  respond_message "#{currency['name']} is currently valued at #{currency['price']}."
 
   # action, repo = message.split('_').map {|c| c.strip.downcase }
   # repo_url = "https://api.github.com/repos/#{repo}"
