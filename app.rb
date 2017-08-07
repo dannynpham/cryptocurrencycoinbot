@@ -8,7 +8,7 @@ end
 
 post '/gateway' do
   message = params[:text].gsub(params[:trigger_word], '').strip
-  puts message
+  p message
 
   action, repo = message.split('_').map {|c| c.strip.downcase }
   repo_url = "https://api.github.com/repos/#{repo}"
@@ -17,7 +17,7 @@ post '/gateway' do
     when 'issues'
       resp = HTTParty.get(repo_url)
       resp = JSON.parse resp.body
-      puts resp
+      p resp
       respond_message "There are #{resp['open_issues_count']} open issues on #{repo}"
   end
 end
