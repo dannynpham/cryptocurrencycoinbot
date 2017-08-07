@@ -2,6 +2,10 @@ require 'sinatra'
 require 'httparty'
 require 'json'
 
+get '/' do
+  'test'
+end
+
 post '/gateway' do
   message = params[:text].gsub(params[:trigger_word], '').strip
   puts message
