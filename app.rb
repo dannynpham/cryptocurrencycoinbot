@@ -27,14 +27,11 @@ post '/gateway' do
 
   currency = currencies[symbol]
 
-  respond_message "#{currency['name']} is currently valued at #{currency['price']}."
-
-  # action, repo = message.split('_').map {|c| c.strip.downcase }
-  # repo_url = "https://api.github.com/repos/#{repo}"
-  # p 'ACTION'
-  # p action
-  # p 'REPO'
-  # p repo_url
+  if currency
+    respond_message "#{currency['name']} is currently valued at #{currency['price']} and the market cap is at #{currency['marketcap']}."
+  else
+    respond_message "Currency cannot be found."
+  end
 
   # case action
   #   when 'issues'
