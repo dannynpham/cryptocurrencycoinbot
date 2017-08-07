@@ -11,10 +11,12 @@ get '/' do
 end
 
 post '/gateway' do
-  p params[:text]
-  p params[:text]
-  p params[:text]
-  p params[:text]
+  message = params[:text].gsub(params[:trigger_word], '').strip
+  p message
+  p message
+  p message
+  p message
+  p message
 
   currencies = {}
   page = Nokogiri::HTML(open(URL))
@@ -31,8 +33,6 @@ post '/gateway' do
   p currencies[message]
   p currencies[message]
 
-  message = params[:text].gsub(params[:trigger_word], '').strip
-  p message
 
   action, repo = message.split('_').map {|c| c.strip.downcase }
   repo_url = "https://api.github.com/repos/#{repo}"
