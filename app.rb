@@ -4,7 +4,7 @@ require 'json'
 require 'nokogiri'
 require 'open-uri'
 
-URL = "https://coinmarketcap.com/currencies/views/all/"
+URL = "https://coinmarketcap.com/coins/views/all/"
 
 get '/' do
   'Nothing to see here.'
