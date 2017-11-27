@@ -20,7 +20,7 @@ post '/gateway' do
     # TODO: Short circuit when symbol is matched.
     currency_sym = row.css('.text-left').children.first.text
     currencies[currency_sym] = {}
-    currencies[currency_sym]["name"] = row.css('.currency-name-container').value
+    currencies[currency_sym]["name"] = row.css('.currency-name-container').text
     currencies[currency_sym]["marketcap"] = row.css('.market-cap').text.strip
     currencies[currency_sym]["price"] = row.css('.price').text
   end
