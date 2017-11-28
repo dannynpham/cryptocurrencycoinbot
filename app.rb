@@ -22,7 +22,9 @@ post '/gateway' do
     currencies[currency_sym] = {}
     currencies[currency_sym]["name"] = row.css('.currency-name-container').text
     currencies[currency_sym]["marketcap"] = row.css('.market-cap').text.strip
-    currencies[currency_sym]["price"] = row.css('.price').text
+    price = row.css('.price').text.split('.')
+    price[0] = price[0].reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+    currencies[currency_sym]["price"] = price.join('.')
   end
 
   currency = currencies[symbol]
