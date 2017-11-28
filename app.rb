@@ -28,7 +28,7 @@ post '/gateway' do
   currency = currencies[symbol]
 
   if currency
-    respond_message "#{currency['name']} is currently valued at #{currency['price']}."
+    respond_message "#{currency['name']} is currently valued at #{currency['price']}"
   elsif symbol == 'HELP'
     respond_message "To use me type 'price <cryptocurrency symbol>'."
   else
