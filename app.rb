@@ -16,15 +16,18 @@ post '/gateway' do
   currencies = {}
 
   coinwatch_page = Nokogiri::HTML(open(URL))
+  
+  # search through rows until symbol matches
   coinwatch_page.css('tbody tr').each do |row|
-    # TODO: Short circuit when symbol is matched.
-    currency_sym = row.css('.text-left').children.first.text
-    currencies[currency_sym] = {}
-    currencies[currency_sym]["name"] = row.css('.currency-name-container').text
-    currencies[currency_sym]["marketcap"] = row.css('.market-cap').text.strip
-    price = row.css('.price').text.split('.')
-    price[0] = price[0].reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
-    currencies[currency_sym]["price"] = price.join('.')
+    if row.css('.text-left').children.first.text == symbol
+      currency_sym = row.css('.text-left').children.first.text
+      currencies[currency_sym] = {}
+      currencies[currency_sym]["name"] = row.css('.currency-name-container').text
+      currencies[currency_sym]["marketcap"] = row.css('.market-cap').text.strip
+      price = row.css('.price').text.split('.')
+      price[0] = price[0].reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+      currencies[currency_sym]["price"] = price.join('.')
+    end
   end
 
   currency = currencies[symbol]
