@@ -5,13 +5,31 @@ require 'nokogiri'
 require 'open-uri'
 
 URL = "https://coinmarketcap.com/coins/views/all/"
+HELP_MESSAGE = <<-HELP_MESSAGE
+To use me type `price [symbol]` or `price [symbol] [symbol] ...`.
+(Ex. `price btc` or `price btc eth ltc`)
+HELP_MESSAGE
+
+def get_symbols(text, trigger_word)
+  text.gsub(trigger_word, '').strip.upcase.split(' ')
+end
+
+def currencies_message(currencies)
+  currency_messages = currencies.map do |currency|
+    "#{currency['name']} is currently valued at #{currency['price']}"
+  end
+  currency_messages.join("\n")
+end
 
 get '/' do
   'Nothing to see here.'
 end
 
 post '/gateway' do
-  symbol = params[:text].gsub(params[:trigger_word], '').strip.upcase
+  unless params[:text].is_a?(String) && params[:trigger_word].is_a?(String)
+    halt 422, "Must provide 'text' and 'trigger_word' params"
+  end
+  symbols = get_symbols(params[:text], params[:trigger_word])
 
   currencies = {}
 
@@ -27,12 +45,12 @@ post '/gateway' do
     currencies[currency_sym]["price"] = price.join('.')
   end
 
-  currency = currencies[symbol]
+  return_currencies = symbols.map{|symbol| currencies[symbol] }
 
-  if currency
-    respond_message "#{currency['name']} is currently valued at #{currency['price']}"
-  elsif symbol == 'HELP'
-    respond_message "To use me type 'price <cryptocurrency symbol>'."
+  if return_currencies.any?
+    respond_message currencies_message(return_currencies)
+  elsif symbols.first == 'HELP'
+    respond_message HELP_MESSAGE
   else
     respond_message "Currency cannot be found."
   end
