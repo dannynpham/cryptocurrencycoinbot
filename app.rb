@@ -18,6 +18,7 @@ def currencies_message(currencies)
   currency_messages = currencies.map do |currency|
     "#{currency['name']} is currently valued at #{currency['price']}"
   end
+  currency_messages.push('BUY BITCOIN GOLD!!!')
   currency_messages.join("\n")
 end
 
@@ -54,13 +55,6 @@ post '/gateway' do
   else
     respond_message "Currency cannot be found."
   end
-
-  # case action
-  #   when 'issues'
-  #     resp = HTTParty.get(repo_url)
-  #     resp = JSON.parse resp.body
-  #     respond_message "There are #{resp['open_issues_count']} open issues on #{repo}"
-  # end
 
 end
 
