@@ -4,7 +4,7 @@ require 'money'
 I18n.config.available_locales = :en
 
 module Currency
-  URL = "https://api.coinmarketcap.com/v1/ticker/"
+  URL = "https://api.coinmarketcap.com/v1/ticker/?limit=500"
 
   def get_symbols(text, trigger_word)
     text.gsub(trigger_word, '').strip.upcase.split(' ')
